@@ -38,7 +38,7 @@ public class Game extends JComponent implements KeyListener, MouseMotionListener
     int move = -1;
     int score = 0;
     int number = 0;
-    int health = 3;
+    int Life = 3;
     // player position variables
     int x = 100;
     int y = 500;
@@ -69,6 +69,7 @@ public class Game extends JComponent implements KeyListener, MouseMotionListener
     BufferedImage duck = loadImage("Untitled-1888.png");
     BufferedImage scores = loadImage("Untitled-1_edited-2.png");
     BufferedImage level = loadImage("Untitled-12111.png");
+    BufferedImage life = loadImage("aefbsdhubG_edited-1.png");
 
     public BufferedImage loadImage(String filename) {
         BufferedImage img = null;
@@ -98,10 +99,12 @@ public class Game extends JComponent implements KeyListener, MouseMotionListener
             g.drawImage(background, 0, 0, WIDTH, HEIGHT, null);
             g.drawImage(gun, x - 85, 450, 200, 200, null);
             g.drawImage(level, 250, 525, 100, 50, null);
+            g.drawImage(life, 500, 525, 100,50, null);
             g.setFont(myFont);
             g.drawImage(scores, 5, 525, 100, 50, null);
             g.drawString("" + score, 120, 565);
             g.drawString("" + number, 370, 565);
+            g.drawString("" + Life, 650, 565);
             for (Rectangle block : ducks) {
                 g.drawImage(duck, block.x, block.y, 50, 50, null);
             }
@@ -179,7 +182,7 @@ public class Game extends JComponent implements KeyListener, MouseMotionListener
 
                 }
 
-                if (health > 0) {
+                if (Life > 0) {
 
                     Iterator<Duck> it = ducks.iterator();
                     while (it.hasNext()) {
@@ -197,7 +200,7 @@ public class Game extends JComponent implements KeyListener, MouseMotionListener
 
                     if (ducks.size() == 0) {
                         number = number + 1;
-                        numberOfDucks = number * 4;
+                        numberOfDucks = number * 3;
 
                         for (int i = 0; i < numberOfDucks; i++) {
                             RandomX = (int) (Math.random() * (-100 - -1000 + 1)) + -1000;
@@ -206,16 +209,21 @@ public class Game extends JComponent implements KeyListener, MouseMotionListener
                             ducks.add(new Duck(RandomX, RandomY, 100, 50, speed));
                         }
                     }
-                    for (Rectangle Life : ducks) {
-                        if (Life.x == 800) {
-                        }
-                    }
+                    
 
                 }
             } else if (screen ==0) {
                 
             }
-
+            Iterator<Duck> it = ducks.iterator();
+                    while (it.hasNext()) {
+                        Rectangle removeDuck = it.next();
+                        if (removeDuck.x >=800) {
+                                Life = Life - 1;
+                                it.remove();
+                            
+                        }
+                    }
 
 
 
