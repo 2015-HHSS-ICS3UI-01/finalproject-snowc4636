@@ -62,6 +62,7 @@ public class Game extends JComponent implements KeyListener, MouseMotionListener
     boolean left = false;
     boolean jump = false;
     boolean prevJump = false;
+    boolean  Gameover  = false;
     // putting the images into the file
     BufferedImage menu = loadImage("5267876982_9cb999ec64.png");
     BufferedImage background = loadImage("images.png");
@@ -97,6 +98,7 @@ public class Game extends JComponent implements KeyListener, MouseMotionListener
             g.drawImage(menu, 0, 0, WIDTH, HEIGHT, null);
 
         }
+        
         //if the screen equals 1 draw this
         if (screen == 1) {
             // draw these images
@@ -132,7 +134,10 @@ public class Game extends JComponent implements KeyListener, MouseMotionListener
             // GAME DRAWING ENDS HERE
         }
 
+if( Gameover && screen == 4){
+            g.drawImage(GameOver, 0, 0, WIDTH, HEIGHT, null);
 
+        }
 
     }
     // The main game loop
@@ -238,13 +243,15 @@ public class Game extends JComponent implements KeyListener, MouseMotionListener
                 if (removeDuck.x >= 800) {
                     Life = Life - 1;
                     it.remove();
-                    if (Life == 0) {
-                        // if 3 ducks reach x = 800, game is over
-                        done = true;
-                    }
-
+                
                 }
             }
+                if (Life == 0) {
+                        // if 3 ducks reach x = 800, game is over
+                        Gameover = true;
+                        screen = 4;
+                    }
+
 
 
 
