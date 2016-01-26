@@ -70,6 +70,7 @@ public class Game extends JComponent implements KeyListener, MouseMotionListener
     BufferedImage scores = loadImage("Untitled-1_edited-2.png");
     BufferedImage level = loadImage("Untitled-12111.png");
     BufferedImage life = loadImage("aefbsdhubG_edited-1.png");
+    BufferedImage GameOver = loadImage("Game_Over_Screen.png");
 
     public BufferedImage loadImage(String filename) {
         BufferedImage img = null;
@@ -94,13 +95,16 @@ public class Game extends JComponent implements KeyListener, MouseMotionListener
             g.drawImage(menu, 0, 0, WIDTH, HEIGHT, null);
 
         }
+        //if the screen equals 1 draw this
         if (screen == 1) {
-
+            // draw these images
             g.drawImage(background, 0, 0, WIDTH, HEIGHT, null);
             g.drawImage(gun, x - 85, 450, 200, 200, null);
             g.drawImage(level, 250, 525, 100, 50, null);
-            g.drawImage(life, 500, 525, 100,50, null);
+            g.drawImage(life, 500, 525, 100, 50, null);
+            // change the font for the next drawings
             g.setFont(myFont);
+            // draw in the scores and input numbers on the screen
             g.drawImage(scores, 5, 525, 100, 50, null);
             g.drawString("" + score, 120, 565);
             g.drawString("" + number, 370, 565);
@@ -108,15 +112,20 @@ public class Game extends JComponent implements KeyListener, MouseMotionListener
             for (Rectangle block : ducks) {
                 g.drawImage(duck, block.x, block.y, 50, 50, null);
             }
+            if (screen == 4) {
+                g.drawImage(GameOver, 0, 0, WIDTH, HEIGHT, null);
+
+            }
 
             // GAME DRAWING GOES HERE 
+            // set the color to black
             g.setColor(Color.BLACK);
 
 
 
 
 
-
+            // draw the crosshair
             g.drawImage(crosshair, x, y, 50, 50, null);
             // GAME DRAWING ENDS HERE
         }
@@ -130,10 +139,11 @@ public class Game extends JComponent implements KeyListener, MouseMotionListener
     public void run() {
         // initial things to do before game starts
         //add ducks
-
+        // if the creen equals 1
         if (screen == 1) {
+            // the number of ducks = the level times 4
             numberOfDucks = number * 4;
-
+            // input
             for (int i = 0; i < numberOfDucks; i++) {
                 RandomX = (int) (Math.random() * (-100 - -1000 + 1)) + -1000;
                 RandomY = (int) (Math.random() * (450 - 100 + 1)) + 100;
@@ -209,21 +219,28 @@ public class Game extends JComponent implements KeyListener, MouseMotionListener
                             ducks.add(new Duck(RandomX, RandomY, 100, 50, speed));
                         }
                     }
-                    
+
 
                 }
-            } else if (screen ==0) {
-                
+            } else if (screen == 0) {
             }
             Iterator<Duck> it = ducks.iterator();
-                    while (it.hasNext()) {
-                        Rectangle removeDuck = it.next();
-                        if (removeDuck.x >=800) {
-                                Life = Life - 1;
-                                it.remove();
-                            
-                        }
+            while (it.hasNext()) {
+                Rectangle removeDuck = it.next();
+                if (removeDuck.x >= 800) {
+                    Life = Life - 1;
+                    it.remove();
+                    if (Life == 0) {
+                        done = true;
                     }
+
+                }
+            }
+
+
+
+
+
 
 
 
