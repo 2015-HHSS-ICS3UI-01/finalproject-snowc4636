@@ -52,7 +52,7 @@ public class Game extends JComponent implements KeyListener, MouseMotionListener
     int screen = 0;
     //font
     Font myFont = new Font("Arial", Font.BOLD, 50);
-    // block
+    // arrays
     ArrayList<Duck> ducks = new ArrayList<Duck>();
     ArrayList<Duck> deadDucks = new ArrayList<Duck>();
     //keyboard variables
@@ -62,6 +62,7 @@ public class Game extends JComponent implements KeyListener, MouseMotionListener
     boolean left = false;
     boolean jump = false;
     boolean prevJump = false;
+    // putting the images into the file
     BufferedImage menu = loadImage("5267876982_9cb999ec64.png");
     BufferedImage background = loadImage("images.png");
     BufferedImage gun = loadImage("diamondback_fs9_nine_for_sale-8.png");
@@ -71,6 +72,7 @@ public class Game extends JComponent implements KeyListener, MouseMotionListener
     BufferedImage level = loadImage("Untitled-12111.png");
     BufferedImage life = loadImage("aefbsdhubG_edited-1.png");
     BufferedImage GameOver = loadImage("Game_Over_Screen.png");
+    //inputing the images
 
     public BufferedImage loadImage(String filename) {
         BufferedImage img = null;
@@ -89,7 +91,7 @@ public class Game extends JComponent implements KeyListener, MouseMotionListener
     public void paintComponent(Graphics g) {
         // always clear the screen first!
 
-
+        //draw the menu screen
         g.clearRect(0, 0, WIDTH, HEIGHT);
         if (screen == 0) {
             g.drawImage(menu, 0, 0, WIDTH, HEIGHT, null);
@@ -142,8 +144,8 @@ public class Game extends JComponent implements KeyListener, MouseMotionListener
         // if the creen equals 1
         if (screen == 1) {
             // the number of ducks = the level times 4
-            numberOfDucks = number * 4;
-            // input
+            numberOfDucks = number * 3;
+            // input random duck at random x and y and different speeds
             for (int i = 0; i < numberOfDucks; i++) {
                 RandomX = (int) (Math.random() * (-100 - -1000 + 1)) + -1000;
                 RandomY = (int) (Math.random() * (450 - 100 + 1)) + 100;
@@ -173,13 +175,17 @@ public class Game extends JComponent implements KeyListener, MouseMotionListener
 
             // all your game rules and move is done in here
             // GAME LOGIC STARTS HERE 
+            //where the x position is
             if (screen == 1) {
                 x = mouseX - 20;
 
                 y = mouseY - 20;
+                // levels = 0
                 if (levels > 0) {
+                    // framecount
                     frameCount++;
                     if (frameCount > 1) {
+                        //ducks x + the speed
                         for (Duck d : ducks) {
                             if (d.x < 800) {
                                 d.x = d.x + d.speed;
@@ -191,9 +197,9 @@ public class Game extends JComponent implements KeyListener, MouseMotionListener
 
 
                 }
-
+                // if the life = 0 do this
                 if (Life > 0) {
-
+                    //if the button is pressed where x is the duck will be removed
                     Iterator<Duck> it = ducks.iterator();
                     while (it.hasNext()) {
                         Duck d = it.next();
@@ -201,17 +207,18 @@ public class Game extends JComponent implements KeyListener, MouseMotionListener
                             if (d.contains(mouseX, mouseY)) {
                                 deadDucks.add(d);
                                 it.remove();
+                                // each duck is worth 10 points
                                 score = score + 10;
                                 System.out.println(score);
                             }
 
                         }
                     }
-
+                    // if no ducks are left. Level goes up 1 and number of ducks times 3
                     if (ducks.size() == 0) {
                         number = number + 1;
                         numberOfDucks = number * 3;
-
+                        // again input random ducks at random x and y and speed
                         for (int i = 0; i < numberOfDucks; i++) {
                             RandomX = (int) (Math.random() * (-100 - -1000 + 1)) + -1000;
                             RandomY = (int) (Math.random() * (450 - 100 + 1)) + 100;
@@ -224,6 +231,7 @@ public class Game extends JComponent implements KeyListener, MouseMotionListener
                 }
             } else if (screen == 0) {
             }
+            // if duck reaches x = 800 life will be subtracted by 1
             Iterator<Duck> it = ducks.iterator();
             while (it.hasNext()) {
                 Rectangle removeDuck = it.next();
@@ -231,6 +239,7 @@ public class Game extends JComponent implements KeyListener, MouseMotionListener
                     Life = Life - 1;
                     it.remove();
                     if (Life == 0) {
+                        // if 3 ducks reach x = 800, game is over
                         done = true;
                     }
 
@@ -305,9 +314,10 @@ public class Game extends JComponent implements KeyListener, MouseMotionListener
 
     @Override
     public void keyPressed(KeyEvent e) {
+
         if (screen == 0) {
         }
-
+        // press enter to switch to screen 1
         int key = e.getKeyCode();
         if (key == KeyEvent.VK_ENTER) {
             screen = 1;
@@ -332,6 +342,7 @@ public class Game extends JComponent implements KeyListener, MouseMotionListener
 
     @Override
     public void mouseMoved(MouseEvent e) {
+        // mouse value
         mouseX = e.getX();
         mouseY = e.getY();
     }
